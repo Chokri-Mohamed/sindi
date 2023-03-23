@@ -1,0 +1,13 @@
+package tech.byrsa.sindibad;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class SindibadCasApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
