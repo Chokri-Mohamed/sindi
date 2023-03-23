@@ -1,4 +1,4 @@
-package tech.byrsa.config;
+package tech.byrsa.sindibad.config;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
