@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.4</version>
+		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -22,14 +22,14 @@
 		<java.version>17</java.version>
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
 		<shedlock.version>5.1.0</shedlock.version>
-		<spring-boot.version>3.0.4</spring-boot.version>
+		<spring-boot.version>3.1.0</spring-boot.version>
 		<mail.extensions.version>2.0.0</mail.extensions.version>
 		<moneta.version>1.4.2</moneta.version>
 		<stripe.version>22.5.0</stripe.version>
 		<h2gis.version>2.1.0</h2gis.version>
-		<hibernate-types-60.version>2.21.1</hibernate-types-60.version>
-		<hibernate-search.version>6.1.7.Final</hibernate-search.version>
-		<liquibase.version>4.18.0</liquibase.version>
+		<nimbus.version>9.31</nimbus.version>
+		<hypersistence-utils-hibernate.version>3.4.1</hypersistence-utils-hibernate.version>
+		<hibernate-search.version>6.1.8.Final</hibernate-search.version>
 		<spring-security-oauth2-authorization-server.version>1.0.1</spring-security-oauth2-authorization-server.version>
 	</properties>
 
@@ -87,9 +87,9 @@
 			</dependency>
 			<!-- HIBERNATE HELPER -->
 			<dependency>
-				<groupId>com.vladmihalcea</groupId>
-				<artifactId>hibernate-types-60</artifactId>
-				<version>${hibernate-types-60.version}</version>
+				<groupId>io.hypersistence</groupId>
+    			<artifactId>hypersistence-utils-hibernate-62</artifactId>
+				<version>${hypersistence-utils-hibernate.version}</version>
 			</dependency>
 			<!-- HIBERNATE SEARCH -->
 			<dependency>
@@ -137,6 +137,11 @@
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-oauth2-authorization-server</artifactId>
 				<version>${spring-security-oauth2-authorization-server.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>nimbus-jose-jwt</artifactId>
+				<version>${nimbus.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

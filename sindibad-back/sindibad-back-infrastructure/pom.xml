@@ -92,8 +92,8 @@
 		</dependency>
 		<!-- Hibernate Types -->
 		<dependency>
-			<groupId>com.vladmihalcea</groupId>
-			<artifactId>hibernate-types-60</artifactId>
+			<groupId>io.hypersistence</groupId>
+    		<artifactId>hypersistence-utils-hibernate-62</artifactId>
 		</dependency>
 		<!-- Lock Schedule -->
 		<dependency>
@@ -118,11 +118,6 @@
 		<dependency>
 			<groupId>de.vinado.boot</groupId>
 			<artifactId>mail-extensions-all-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- liquibase -->
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
 		<!-- Stripe -->
