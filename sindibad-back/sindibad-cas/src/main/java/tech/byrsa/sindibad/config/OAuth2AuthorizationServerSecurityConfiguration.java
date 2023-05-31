@@ -4,10 +4,12 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Clock;
 import java.util.UUID;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
@@ -39,8 +41,14 @@ import com.nimbusds.jose.proc.SecurityContext;
 
 @Configuration
 @EnableWebSecurity
-public class OAuth2AuthorizationServerSecurityConfiguration {
 
+public class OAuth2AuthorizationServerSecurityConfiguration {
+	 @Bean
+	 
+	    public Clock clock() {
+	        return Clock.systemUTC();
+	    }
+	
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain authorizationServerSecurityFilterChain(final HttpSecurity http) throws Exception {
@@ -49,6 +57,8 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
     }
 
     @Bean
+    @Primary
+
     RegisteredClientRepository registeredClientRepository() {
         final RegisteredClient loginClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("sindibad-front")
@@ -120,7 +130,7 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 
         return new InMemoryUserDetailsManager(userDetails);
     }
-
+   
     @Bean
     @SuppressWarnings("deprecation")
     PasswordEncoder passwordEncoder() {
