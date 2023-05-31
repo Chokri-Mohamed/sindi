@@ -2,14 +2,17 @@ package tech.byrsa.sindibad.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.AllArgsConstructor;
-import tech.byrsa.sindibad.rest.handler.ErrorMessageAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -17,29 +20,21 @@ import tech.byrsa.sindibad.rest.handler.ErrorMessageAccessDeniedHandler;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-	private final ErrorMessageAccessDeniedHandler accessDeniedHandler;
-
 	@Bean
-    BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
 	}
 
 	@Bean
-    SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().requestMatchers("/**").authenticated()
-		.and()
-		.oauth2ResourceServer().jwt()
-        .and()
-        .accessDeniedHandler(accessDeniedHandler)
-        .and()
-        .csrf().disable()
-        .httpBasic().disable();
-
-		return http.build();
+	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+	    return httpSecurity
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .anyRequest().permitAll()
+	        )
+	        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+	        .httpBasic(Customizer.withDefaults())
+	        .build();
 	}
-
-//	@Bean
-//	public WebSecurityCustomizer webSecurityCustomizer() {
-//		return web -> web.ignoring().antMatchers("/ignore1", "/ignore2");
-//	}
 }
