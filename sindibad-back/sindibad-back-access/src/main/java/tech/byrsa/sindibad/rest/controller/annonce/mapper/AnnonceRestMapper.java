@@ -15,6 +15,7 @@ public interface AnnonceRestMapper {
 	WriteNewAnnonce map(WriteNewAnnonceRequest writeNewAnnonce);
 
 	@Mapping(target = "id", ignore = true)
+
 	@Mapping(target = "title", ignore = true)
 	@Mapping(target = "description", ignore = true)
 	GetAnnonceResponse map(Page<Annonce> annonce);
