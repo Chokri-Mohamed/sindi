@@ -13,6 +13,7 @@
   <script setup>
   import { api } from 'boot/axios'
   api.get('api/get/1').then(Response=>console.log(Response))
+  //hhbbh
 
   </script>  
   
