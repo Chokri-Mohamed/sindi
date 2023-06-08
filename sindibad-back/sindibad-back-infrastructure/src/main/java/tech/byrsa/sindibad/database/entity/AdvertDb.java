@@ -27,5 +27,5 @@ public class AdvertDb extends AbstractEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = UserAccountDb.class)
 	private UserAccountDb userAccount;
-	//sdvsdvsdvsd
+
 }
