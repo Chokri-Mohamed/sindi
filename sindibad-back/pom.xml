@@ -9,30 +9,25 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>tech.byrsa</groupId>
 	<artifactId>sindibad-back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
 	<name>sindibad</name>
 	<description>sindibad is meant to facilitate the maintenance of your tools</description>
-
 	<properties>
 		<java.version>17</java.version>
-		<mapstruct.version>1.5.3.Final</mapstruct.version>
-		<shedlock.version>5.1.0</shedlock.version>
 		<spring-boot.version>3.1.0</spring-boot.version>
-		<mail.extensions.version>2.0.0</mail.extensions.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
+		<shedlock.version>5.1.0</shedlock.version>
 		<moneta.version>1.4.2</moneta.version>
-		<stripe.version>22.5.0</stripe.version>
-		<h2gis.version>2.1.0</h2gis.version>
+		<stripe.version>22.22.0</stripe.version>
+		<h2gis.version>2.2.0</h2gis.version>
 		<nimbus.version>9.31</nimbus.version>
-		<hypersistence-utils-hibernate.version>3.4.1</hypersistence-utils-hibernate.version>
 		<hibernate-search.version>6.1.8.Final</hibernate-search.version>
-		<spring-security-oauth2-authorization-server.version>1.0.1</spring-security-oauth2-authorization-server.version>
+		<spring-security-oauth2-authorization-server.version>1.1.0</spring-security-oauth2-authorization-server.version>
+		<jackson-nullable.version>0.2.6</jackson-nullable.version>
 	</properties>
-
 	<modules>
 		<module>sindibad-back-access</module>
 		<module>sindibad-back-domain</module>
@@ -40,7 +35,6 @@
 		<module>sindibad-back-software</module>
 		<module>sindibad-cas</module>
 	</modules>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -85,12 +79,6 @@
 				<artifactId>shedlock-provider-jdbc-template</artifactId>
 				<version>${shedlock.version}</version>
 			</dependency>
-			<!-- HIBERNATE HELPER -->
-			<dependency>
-				<groupId>io.hypersistence</groupId>
-    			<artifactId>hypersistence-utils-hibernate-62</artifactId>
-				<version>${hypersistence-utils-hibernate.version}</version>
-			</dependency>
 			<!-- HIBERNATE SEARCH -->
 			<dependency>
 				<groupId>org.hibernate.search</groupId>
@@ -113,12 +101,6 @@
 				<artifactId>h2gis</artifactId>
 				<version>${h2gis.version}</version>
 			</dependency>
-			<!-- JAVAMAIL - DKIM -->
-			<dependency>
-				<groupId>de.vinado.boot</groupId>
-				<artifactId>mail-extensions-all-spring-boot-starter</artifactId>
-				<version>${mail.extensions.version}</version>
-			</dependency>
 			<!-- MONETA -->
 			<dependency>
 				<groupId>org.javamoney</groupId>
@@ -131,6 +113,12 @@
 				<groupId>com.stripe</groupId>
 				<artifactId>stripe-java</artifactId>
 				<version>${stripe.version}</version>
+			</dependency>
+			<!-- JACKSON -->
+			<dependency>
+				<groupId>org.openapitools</groupId>
+				<artifactId>jackson-databind-nullable</artifactId>
+				<version>${jackson-nullable.version}</version>
 			</dependency>
 			<!-- OAUTH SERVER -->
 			<dependency>
@@ -145,7 +133,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
