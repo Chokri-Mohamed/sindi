@@ -64,12 +64,12 @@ public class AdvertJpaAdapter implements SaveAdvert, GetAdvert, GetPageAdverts, 
 	public void updateAdvert(AdvertUpdate advertUpdate) {
 		Specification<AdvertDb> specs = Specification.where(AdvertSpecification.byId(advertUpdate.getId()));
 		Optional<AdvertDb> optAdvertDb = advertRepository.findOne(specs);
-	
+
 		AdvertDb advertDb = optAdvertDb.orElseThrow();
-		if(advertUpdate.isSubmittedTitle()) {
+		if (advertUpdate.isSubmittedTitle()) {
 			advertDb.setTitle(advertUpdate.getTitle());
 		}
-		if(advertUpdate.isSubmittedDescription()) {
+		if (advertUpdate.isSubmittedDescription()) {
 			advertDb.setDescription(advertUpdate.getDescription());
 		}
 	}

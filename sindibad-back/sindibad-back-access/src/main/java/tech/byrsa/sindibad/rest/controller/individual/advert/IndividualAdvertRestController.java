@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,7 @@ public class IndividualAdvertRestController {
 	private final AdvertRestMapper advertRestMapper;
 
 	@GetMapping
-	public ResponseEntity<Page<PaginatedAdvertResponse>> getPaginatedAdvert(Pageable pageable) {
+	public ResponseEntity<Page<PaginatedAdvertResponse>> getPaginatedAdvert(@PathVariable Pageable pageable) {
 
 		log.entry(pageable);
 
@@ -66,7 +67,7 @@ public class IndividualAdvertRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Long> createAdvert(CreateAdvertRequest createAdvertRequest, Long userId) {
+	public ResponseEntity<Long> createAdvert(@RequestBody CreateAdvertRequest createAdvertRequest, Long userId) {
 
 		log.entry(createAdvertRequest);
 

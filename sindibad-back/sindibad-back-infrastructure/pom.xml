@@ -115,6 +115,7 @@
 			<groupId>com.stripe</groupId>
 			<artifactId>stripe-java</artifactId>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

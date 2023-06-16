@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tech.byrsa.sindibad.enumerated.Gender;
 
 @Getter
 @Setter
@@ -23,6 +24,12 @@ public class UserAccountDb extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String email;
+	private String password;
+	private String firstname;
+	private String lastname;
+	private Gender gender;
+
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccount")
 	private List<AdvertDb> adverts;
