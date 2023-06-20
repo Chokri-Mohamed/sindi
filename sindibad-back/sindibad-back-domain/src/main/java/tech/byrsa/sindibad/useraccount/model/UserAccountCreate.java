@@ -8,5 +8,4 @@ public class UserAccountCreate {
 	private String password;
 	private String firstname;
 	private String lastname;
-	private String gender;
 }

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <q-item
       clickable
       tag="a"
@@ -17,7 +17,7 @@
         <q-item-label caption>{{ caption }}</q-item-label>
       </q-item-section>
     </q-item>
-  </template>
+  </template> -->
   
   <script setup lang="ts">
 //   export interface EssentialLinkProps {
