@@ -38,6 +38,7 @@ public class SecurityConfiguration {
 				.cors(cors -> cors.configurationSource(corsConfigurationSource))
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).httpBasic(Customizer.withDefaults()).build();
+				
 	}
 
 }

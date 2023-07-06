@@ -82,6 +82,7 @@
 			<groupId>org.orbisgis</groupId>
 			<artifactId>h2gis</artifactId>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

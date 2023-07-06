@@ -1,4 +1,4 @@
-package tech.byrsa.sindibad;
+  package tech.byrsa.sindibad;
 
 import org.springframework.boot.SpringApplication;
 
