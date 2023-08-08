@@ -50,9 +50,11 @@
               </q-form>
             </q-card-section>
            
-            <!-- <q-card-section class="text-center q-pa-sm">
-              <p class="text-grey-6">Return to login</p>
-            </q-card-section> -->
+            <q-card-section class="text-center q-pa-sm">
+              <!-- <p class="text-grey-6">Return to login</p> -->
+              <q-btn label="Return to login" unelevated  type="submit" size="lg" color="green" class="text-grey-6" />
+
+            </q-card-section>
           </q-card>
         </div>
       </div>

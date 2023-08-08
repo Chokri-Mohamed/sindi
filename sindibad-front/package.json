@@ -12,10 +12,17 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "assert": "^2.0.0",
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "oidc-client-ts": "^2.2.4",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
+    "querystring": "^0.2.1",
+    "stream": "^0.0.2",
+    "url": "^0.11.1",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.0"

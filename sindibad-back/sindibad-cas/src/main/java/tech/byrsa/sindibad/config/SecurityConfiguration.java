@@ -1,12 +1,11 @@
 package tech.byrsa.sindibad.config;
 
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
-
-import lombok.AllArgsConstructor;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -30,81 +26,73 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.time.Duration;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+
+import lombok.AllArgsConstructor;
 
 @Configuration
 @AllArgsConstructor
 public class SecurityConfiguration {
-	
+
 	private final UserDetailsService userDetailsService;
+
 	@Bean
-	  @Order(1)
-	  public SecurityFilterChain asFilterChain(HttpSecurity http) throws Exception {
-	    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+	@Order(1)
+	public SecurityFilterChain asFilterChain(HttpSecurity http) throws Exception {
+		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-	    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-	        .oidc(Customizer.withDefaults());
+		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
+		http.cors(Customizer.withDefaults());
 
-	    http.exceptionHandling(c -> c.defaultAuthenticationEntryPointFor(
-	       new LoginUrlAuthenticationEntryPoint("/login"),
-	       new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-	    ));
+		http.exceptionHandling(c -> c.defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/login"),
+				new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
 
-	    return http.build();
-	  }
+		return http.build();
+	}
 
-	  @Bean
-	  @Order(2)
-	  public SecurityFilterChain appSecurityFilterChain(HttpSecurity http) throws Exception {
-	    http.formLogin(Customizer.withDefaults());
+	@Bean
+	@Order(2)
+	public SecurityFilterChain appSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.formLogin(Customizer.withDefaults());
+		http.authorizeHttpRequests(c -> c.anyRequest().permitAll());
 
-	    http.authorizeHttpRequests(
-	        c -> c.anyRequest().authenticated()
-	    );
+		return http.build();
+	}
 
-	    return http.build();
-	  }
-
-	  @Bean
-	  public RegisteredClientRepository registeredClientRepository() {
-	    RegisteredClient c1 = RegisteredClient.withId("1")
-	        .clientId("client")
-	        .clientSecret("secret")
-	        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-	        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-	        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-	        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-	        .scope(OidcScopes.OPENID)
-	        .redirectUri("https://google.com")
-	        .tokenSettings(TokenSettings.builder()
-	            .accessTokenTimeToLive(Duration.ofHours(1))
+	@Bean
+	public RegisteredClientRepository registeredClientRepository() {
+		RegisteredClient c1 = RegisteredClient.withId("1").clientId("client")
+				.clientSecret(passwordEncoder().encode("secret"))
+				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC).scope(OidcScopes.OPENID)
+				.redirectUri("http://localhost:8080/auth")
+				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofHours(1))
 //	            .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-	            .build())
-	        .build();
-	    return new InMemoryRegisteredClientRepository(c1);
-	  }
+						.build())
+				.build();
+		return new InMemoryRegisteredClientRepository(c1);
+	}
 
-	  @Bean
-	  public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder();
-	  }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-	  @Bean
-	  public AuthorizationServerSettings authorizationServerSettings() {
-	    return AuthorizationServerSettings.builder().build();
-	  }
+	@Bean
+	public AuthorizationServerSettings authorizationServerSettings() {
+		return AuthorizationServerSettings.builder().build();
+	}
 
 //	  @Bean
 //	  public UserDetailsService userDetailsService() {
@@ -116,31 +104,28 @@ public class SecurityConfiguration {
 //	    return new InMemoryUserDetailsManager(u1);
 //	  }
 
-	  @Bean
-	  public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
-	    // DEMO
+	@Bean
+	public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
+		// DEMO
 
-	    KeyPairGenerator kg = KeyPairGenerator.getInstance("RSA");
-	    kg.initialize(2048);
-	    KeyPair kp = kg.generateKeyPair();
+		KeyPairGenerator kg = KeyPairGenerator.getInstance("RSA");
+		kg.initialize(2048);
+		KeyPair kp = kg.generateKeyPair();
 
-	    RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) kp.getPrivate();
-	    RSAPublicKey rsaPublicKey = (RSAPublicKey) kp.getPublic();
+		RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) kp.getPrivate();
+		RSAPublicKey rsaPublicKey = (RSAPublicKey) kp.getPublic();
 
-	    // DEMO
+		// DEMO
 
+		RSAKey key = new RSAKey.Builder(rsaPublicKey).privateKey(rsaPrivateKey).keyID("BLABLABLA").build();
 
-	    RSAKey key = new RSAKey.Builder(rsaPublicKey)
-	        .privateKey(rsaPrivateKey)
-	        .keyID("BLABLABLA")
-	        .build();
+		JWKSet set = new JWKSet(key);
+		return new ImmutableJWKSet<>(set);
+	}
 
-	    JWKSet set = new JWKSet(key);
-	    return new ImmutableJWKSet<>(set);
-	  }
-	  @Bean
-	    public AuthenticationProvider authenticationProvider() {
-	        return new CustomAuthenticationProvider(userDetailsService,passwordEncoder());
-	    }
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		return new CustomAuthenticationProvider(userDetailsService, passwordEncoder());
+	}
 
 }
