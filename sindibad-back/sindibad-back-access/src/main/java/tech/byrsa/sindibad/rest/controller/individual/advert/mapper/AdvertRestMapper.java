@@ -16,8 +16,8 @@ import tech.byrsa.sindibad.rest.controller.individual.advert.dto.UpdateAdvertReq
 public interface AdvertRestMapper {
 
 	@Mapping(target = "id")
-	@Mapping(target = "title", ignore = true)
-	@Mapping(target = "description", ignore = true)
+	@Mapping(target = "title")
+	@Mapping(target = "description")
 	PaginatedAdvertResponse mapToPaginatedAdvert(Advert advert);
 
 	@Mapping(target = "userId", source = "creator.id")
@@ -25,8 +25,10 @@ public interface AdvertRestMapper {
 
 	AdvertCreate map(CreateAdvertRequest createAdvertRequest, Long userId);
 
-	@Mapping(target = "submittedTitle", source = "updateAdvertRequest.title")
-	@Mapping(target = "submittedDescription", source = "updateAdvertRequest.description")
+	@Mapping(target = "title", source = "updateAdvertRequest.title")
+	@Mapping(target = "description", source = "updateAdvertRequest.description")
+	@Mapping(target = "submittedTitle", ignore = true)
+	@Mapping(target = "submittedDescription", ignore = true)
 	AdvertUpdate map(Long id, UpdateAdvertRequest updateAdvertRequest);
 	
 	default <T> boolean map(JsonNullable<T> value) {

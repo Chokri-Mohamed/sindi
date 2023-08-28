@@ -23,6 +23,8 @@ public class UserAccountJpaAdapter implements SaveUserAccount {
 		UserAccountDb userAccountDb = userAccountJpaAdapterMapper.map(userAccountCreate);
 		UserAccountDb savedUserAccountDb = userAccountRepository.save(userAccountDb);
 		UserAccount userAccount = userAccountJpaAdapterMapper.map(savedUserAccountDb);
+		System.out.println(userAccountCreate.getPassword());
+
 		return userAccount;
 	}
 

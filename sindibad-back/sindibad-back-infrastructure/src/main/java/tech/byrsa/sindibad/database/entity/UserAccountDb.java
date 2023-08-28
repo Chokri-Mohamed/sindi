@@ -1,5 +1,6 @@
 package tech.byrsa.sindibad.database.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -17,8 +18,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "user_account")
-public class UserAccountDb extends AbstractEntity {
+@Table(name="user_account",schema="sindibad")
+public class UserAccountDb extends AbstractEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

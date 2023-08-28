@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateAdvertRequest {
-	private JsonNullable<String> title = JsonNullable.undefined();
-	private JsonNullable<String> description = JsonNullable.undefined();
+	private String title;
+	private String description;
 }

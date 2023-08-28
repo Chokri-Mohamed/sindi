@@ -1,7 +1,9 @@
 package tech.byrsa.sindibad.rest.controller.individual.advert;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -41,11 +44,14 @@ public class IndividualAdvertRestController {
 	private final AdvertRestMapper advertRestMapper;
 
 	@GetMapping
-	public ResponseEntity<Page<PaginatedAdvertResponse>> getPaginatedAdvert(@PathVariable Pageable pageable) {
+	public ResponseEntity<Page<PaginatedAdvertResponse>> getPaginatedAdvert(
+			@RequestParam("pageSize") Optional<Integer> size, @RequestParam("pageNum") Optional<Integer> pagenumber) {
 
-		log.entry(pageable);
+		// log.entry(pageable);
+		int s = size.orElse(20);
+		int p = pagenumber.orElse(0);
 
-		Page<Advert> advert = getPaginatedAdverts.getPaginatedAdverts(pageable);
+		Page<Advert> advert = getPaginatedAdverts.getPaginatedAdverts(PageRequest.of(p, s));
 		Page<PaginatedAdvertResponse> paginatedAdvertResponse = advert.map(advertRestMapper::mapToPaginatedAdvert);
 
 		log.exit(paginatedAdvertResponse);
@@ -60,6 +66,8 @@ public class IndividualAdvertRestController {
 
 		Advert advert = getDetailedAdvert.getDetailedAdvert(id);
 		DetailedAdvertResponse detailedAdvertResponse = advertRestMapper.mapToDetailedAdvert(advert);
+		if (advert == null)
+			return ResponseEntity.status(404).body(detailedAdvertResponse);
 
 		log.exit(detailedAdvertResponse);
 
@@ -67,7 +75,8 @@ public class IndividualAdvertRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Long> createAdvert(@RequestBody CreateAdvertRequest createAdvertRequest, Long userId) {
+	public ResponseEntity<Long> createAdvert(@RequestBody CreateAdvertRequest createAdvertRequest,
+			@RequestParam("user") Long userId) {
 
 		log.entry(createAdvertRequest);
 
@@ -80,7 +89,8 @@ public class IndividualAdvertRestController {
 	}
 
 	@PatchMapping("{id}")
-	public ResponseEntity<Long> updateAdvert(@PathVariable Long id, UpdateAdvertRequest updateAdvertRequest) {
+	public ResponseEntity<Long> updateAdvert(@PathVariable Long id,
+			@RequestBody UpdateAdvertRequest updateAdvertRequest) {
 
 		log.entry(id, updateAdvertRequest);
 

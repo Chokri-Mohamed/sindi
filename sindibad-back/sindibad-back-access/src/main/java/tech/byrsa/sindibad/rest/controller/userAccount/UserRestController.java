@@ -27,7 +27,6 @@ public class UserRestController {
 	public ResponseEntity<Long> createUserAccount(@RequestBody CreateUserAccountRequest createUserAccountRequest) {
 
 		log.entry(createUserAccountRequest);
-
 		UserAccountCreate userAccountCreate = userAccountRestMapper.map(createUserAccountRequest);
 		Long id = createUserAccountUseCase.createUserAccount(userAccountCreate);
 

@@ -43,9 +43,9 @@ public class AdvertJpaAdapter implements SaveAdvert, GetAdvert, GetPageAdverts, 
 	public Advert getAdvert(Long id) {
 		Specification<AdvertDb> specs = Specification.where(AdvertSpecification.byId(id));
 		Optional<AdvertDb> optAdvert = advertRepository.findOne(specs);
-		AdvertDb advertDb = optAdvert.orElseThrow();
-		Advert advert = advertJpaMapper.map(advertDb);
-		return advert;
+		AdvertDb advertDb = optAdvert.orElse(null);
+		if(advertDb == null) return null;
+		return advertJpaMapper.map(advertDb);
 	}
 
 	@Override
