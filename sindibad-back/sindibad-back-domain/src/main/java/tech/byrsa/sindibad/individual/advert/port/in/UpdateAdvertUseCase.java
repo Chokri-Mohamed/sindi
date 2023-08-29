@@ -1,9 +1,10 @@
 package tech.byrsa.sindibad.individual.advert.port.in;
 
+import tech.byrsa.sindibad.individual.advert.model.Advert;
 import tech.byrsa.sindibad.individual.advert.model.AdvertUpdate;
 
 public interface UpdateAdvertUseCase {
 
-	void updateAdvert(AdvertUpdate advertUpdate);
+	Advert updateAdvert(AdvertUpdate advertUpdate);
 
 }

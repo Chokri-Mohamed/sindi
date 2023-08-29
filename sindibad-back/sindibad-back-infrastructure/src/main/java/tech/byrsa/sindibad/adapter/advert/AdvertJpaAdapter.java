@@ -22,11 +22,12 @@ import tech.byrsa.sindibad.individual.advert.port.out.GetAdvert;
 import tech.byrsa.sindibad.individual.advert.port.out.GetPageAdverts;
 import tech.byrsa.sindibad.individual.advert.port.out.SaveAdvert;
 import tech.byrsa.sindibad.individual.advert.port.out.UpdateAdvert;
+import tech.byrsa.sindibad.useraccount.port.out.DeleteAdvert;
 
 @XSlf4j
 @Component
 @RequiredArgsConstructor
-public class AdvertJpaAdapter implements SaveAdvert, GetAdvert, GetPageAdverts, UpdateAdvert {
+public class AdvertJpaAdapter implements SaveAdvert, GetAdvert, GetPageAdverts, UpdateAdvert, DeleteAdvert {
 
 	private final UserAccountRepository userAccountRepository;
 	private final AdvertRepository advertRepository;
@@ -61,17 +62,18 @@ public class AdvertJpaAdapter implements SaveAdvert, GetAdvert, GetPageAdverts, 
 	}
 
 	@Transactional
-	public void updateAdvert(AdvertUpdate advertUpdate) {
+		public Advert updateAdvert(AdvertUpdate advertUpdate) {
 		Specification<AdvertDb> specs = Specification.where(AdvertSpecification.byId(advertUpdate.getId()));
-		Optional<AdvertDb> optAdvertDb = advertRepository.findOne(specs);
-
-		AdvertDb advertDb = optAdvertDb.orElseThrow();
-		if (advertUpdate.isSubmittedTitle()) {
-			advertDb.setTitle(advertUpdate.getTitle());
-		}
-		if (advertUpdate.isSubmittedDescription()) {
-			advertDb.setDescription(advertUpdate.getDescription());
-		}
+		AdvertDb adb = advertRepository.findOne(specs).orElse(null);
+		if(adb == null) return null;
+		adb.setTitle(advertUpdate.getTitle());
+		adb.setDescription(advertUpdate.getDescription());
+		adb = advertRepository.save(adb);
+		return advertJpaMapper.map(adb);
 	}
 
+	@Override
+	public void delete(Long id) {
+		advertRepository.deleteById(id);
+	}
 }

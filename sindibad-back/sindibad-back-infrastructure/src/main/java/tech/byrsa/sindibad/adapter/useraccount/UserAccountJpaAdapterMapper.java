@@ -21,4 +21,13 @@ public interface UserAccountJpaAdapterMapper {
 
 	UserAccount map(UserAccountDb userAccountDb);
 
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "version", ignore = true)
+	@Mapping(target = "adverts", ignore = true)
+	@Mapping(target = "createdBy", ignore = true)
+	@Mapping(target = "createdDate", ignore = true)
+	@Mapping(target = "lastModifiedBy", ignore = true)
+	@Mapping(target = "lastModifiedDate", ignore = true)
+	@Mapping(target = "password", ignore = true)
+	UserAccountDb map(UserAccount userAccount);
 }

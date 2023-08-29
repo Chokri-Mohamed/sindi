@@ -5,5 +5,6 @@ import tech.byrsa.sindibad.useraccount.model.UserAccountCreate;
 
 public interface SaveUserAccount {
 	UserAccount createUserAccount(UserAccountCreate userAccountCreate);
+	UserAccount modifyUserAccount(Long id, UserAccount userAccount);
 
 }

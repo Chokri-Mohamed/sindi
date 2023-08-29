@@ -27,10 +27,11 @@ public interface AdvertRestMapper {
 
 	@Mapping(target = "title", source = "updateAdvertRequest.title")
 	@Mapping(target = "description", source = "updateAdvertRequest.description")
-	@Mapping(target = "submittedTitle", ignore = true)
-	@Mapping(target = "submittedDescription", ignore = true)
 	AdvertUpdate map(Long id, UpdateAdvertRequest updateAdvertRequest);
-	
+	@Mapping(target = "title", source = "advert.title")
+	@Mapping(target = "description", source = "advert.description")
+	AdvertUpdate map(Advert advert);
+
 	default <T> boolean map(JsonNullable<T> value) {
 		if(value == null) {
 			return true;
