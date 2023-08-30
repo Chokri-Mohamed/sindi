@@ -6,7 +6,7 @@
 
       <div class="column q-pa-lg">
         <div class="row">
-          <q-card square class="shadow-24" style="width:500px;height:705px;">
+          <q-card square class="shadow-24" style="width:500px;height:650px;">
             <q-card-section class="white">
               <h4 class="text-h5 text-black q-my-md">Registration</h4>
               <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
@@ -51,9 +51,7 @@
             </q-card-section>
            
             <q-card-section class="text-center q-pa-sm">
-              <!-- <p class="text-grey-6">Return to login</p> -->
-              <q-btn label="Return to login" unelevated  type="submit" size="lg" color="green" class="text-grey-6" />
-
+              <q-btn label="Return to login" @click="redirectToPage" unelevated  type="submit"  size="lg" color="blue" class="text-white-6" />
             </q-card-section>
           </q-card>
         </div>
@@ -64,6 +62,7 @@
 <script>
 import { ref } from 'vue'
 import  {api}  from 'boot/axios'
+
 export default {
   setup () {
     
@@ -104,6 +103,9 @@ export default {
         isPwd: ref(true),
 
         accept,
+        redirectToPage() {
+          this.$router.push('/login');
+        },  
 
       onSubmit () {
             let data={
@@ -111,6 +113,7 @@ export default {
                 lastname:lastname.value,
                 email:email.value,
                 password:password.value
+                
             }
             api.post('individual/users',data).then(res=>console.log(res)).catch(err=>console.log(err))
           //console.log(data)

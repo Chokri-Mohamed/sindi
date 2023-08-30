@@ -14,6 +14,7 @@ import tech.byrsa.sindibad.individual.advert.port.out.GetPageAdverts;
 import tech.byrsa.sindibad.individual.advert.port.out.SaveAdvert;
 import tech.byrsa.sindibad.individual.advert.port.out.UpdateAdvert;
 import tech.byrsa.sindibad.useraccount.port.out.DeleteAdvert;
+import tech.byrsa.sindibad.useraccount.port.out.GetUserAccount;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class CRUDAdvertService implements GetDetailedAdvertQuery, GetPaginatedAd
 	private final UpdateAdvert updateAdvert;
 	private final SaveAdvert saveAdvert;
 	private final DeleteAdvert deleteAdvert;
-
+	private final GetUserAccount getUserAccount;
 
 	@Override
 	public Page<Advert> getPaginatedAdverts(Pageable pageable) {
@@ -40,6 +41,9 @@ public class CRUDAdvertService implements GetDetailedAdvertQuery, GetPaginatedAd
 
 	@Override
 	public Long createAdvert(AdvertCreate advertCreate) {
+		if(getUserAccount.getUserAccountById(advertCreate.getUserId()) == null){
+			return null;
+		}
 		Advert advert = saveAdvert.createAdvert(advertCreate);
 		return advert.getId();
 	}
@@ -52,7 +56,10 @@ public class CRUDAdvertService implements GetDetailedAdvertQuery, GetPaginatedAd
 	}
 
 	@Override
-	public void delete(Long id) {
+	public boolean delete(Long id) {
+		Advert advert = getAdvert.getAdvert(id);
+		if(advert == null) return false;
 		deleteAdvert.delete(id);
+		return true;
 	}
 }

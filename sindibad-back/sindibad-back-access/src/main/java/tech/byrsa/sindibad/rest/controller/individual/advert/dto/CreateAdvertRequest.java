@@ -8,4 +8,5 @@ import lombok.Setter;
 public class CreateAdvertRequest {
 	private String title;
 	private String description;
+	private int advert_type;
 }

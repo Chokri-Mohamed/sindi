@@ -7,4 +7,5 @@ public class AdvertCreate {
 	private String title;
 	private String description;
 	private Long userId;
+	private int advert_type;
 }

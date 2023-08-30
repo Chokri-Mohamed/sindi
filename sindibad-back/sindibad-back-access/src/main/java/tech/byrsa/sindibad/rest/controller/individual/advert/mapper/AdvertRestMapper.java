@@ -15,13 +15,34 @@ import tech.byrsa.sindibad.rest.controller.individual.advert.dto.UpdateAdvertReq
 @Mapper
 public interface AdvertRestMapper {
 
-	@Mapping(target = "id")
-	@Mapping(target = "title")
-	@Mapping(target = "description")
-	PaginatedAdvertResponse mapToPaginatedAdvert(Advert advert);
+	default PaginatedAdvertResponse mapToPaginatedAdvert(Advert advert){
+		PaginatedAdvertResponse p = new PaginatedAdvertResponse();
+		p.setId(advert.getId());
+		p.setDescription(advert.getDescription());
+		p.setTitle(advert.getTitle());
+		p.setUserId(advert.getCreator().getId());
+		if(advert.getClass().getTypeName().equals("AdvertCar")){
+			p.setAdvert_type(1);
+		}else{
+			p.setAdvert_type(2);
+		}
+		return p;
+	}
 
 	@Mapping(target = "userId", source = "creator.id")
-	DetailedAdvertResponse mapToDetailedAdvert(Advert advert);
+	default DetailedAdvertResponse mapToDetailedAdvert(Advert advert){
+		DetailedAdvertResponse p = new DetailedAdvertResponse();
+		p.setId(advert.getId());
+		p.setDescription(advert.getDescription());
+		p.setTitle(advert.getTitle());
+		p.setUserId(advert.getCreator().getId());
+		if(advert.getClass().getTypeName().equals("AdvertCar")){
+			p.setAdvert_type(1);
+		}else{
+			p.setAdvert_type(2);
+		}
+		return p;
+	}
 
 	AdvertCreate map(CreateAdvertRequest createAdvertRequest, Long userId);
 

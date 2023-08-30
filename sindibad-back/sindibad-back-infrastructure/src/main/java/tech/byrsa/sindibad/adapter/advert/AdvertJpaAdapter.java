@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.XSlf4j;
+import tech.byrsa.sindibad.database.entity.AdvertCarDb;
 import tech.byrsa.sindibad.database.entity.AdvertDb;
+import tech.byrsa.sindibad.database.entity.AdvertImmoDb;
 import tech.byrsa.sindibad.database.entity.UserAccountDb;
 import tech.byrsa.sindibad.database.repository.AdvertRepository;
 import tech.byrsa.sindibad.database.repository.UserAccountRepository;
@@ -54,9 +56,18 @@ public class AdvertJpaAdapter implements SaveAdvert, GetAdvert, GetPageAdverts, 
 	public Advert createAdvert(AdvertCreate advertCreate) {
 		UserAccountDb userAccountDb = userAccountRepository.getReferenceById(advertCreate.getUserId());
 
-		AdvertDb advertDb = advertJpaMapper.map(advertCreate, userAccountDb);
-
-		AdvertDb savedAdvertDb = advertRepository.save(advertDb);
+		System.err.println(advertCreate.toString());
+		AdvertCarDb acd;
+		AdvertImmoDb aid;
+		AdvertDb savedAdvertDb;
+		if(advertCreate.getAdvert_type() == 1) {
+			acd = advertJpaMapper.map2(advertCreate, userAccountDb);
+			savedAdvertDb = advertRepository.save(acd);
+		}else{
+			aid = advertJpaMapper.map1(advertCreate, userAccountDb);
+			savedAdvertDb = advertRepository.save(aid);
+		}
+		System.err.println(savedAdvertDb.toString());
 		Advert advert = advertJpaMapper.map(savedAdvertDb);
 		return advert;
 	}
