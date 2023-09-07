@@ -3,19 +3,11 @@ package tech.byrsa.sindibad.rest.controller.enterprise;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.XSlf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.byrsa.sindibad.enterprise.model.Enterprise;
-import tech.byrsa.sindibad.enterprise.port.in.AffiliateEnterprise;
-import tech.byrsa.sindibad.enterprise.port.in.CreateEntrepriseUseCase;
-import tech.byrsa.sindibad.enterprise.port.in.GetOneEnterpriseUseCase;
-import tech.byrsa.sindibad.enterprise.port.in.ModifyEnterpriseUseCase;
-import tech.byrsa.sindibad.enterprise.port.out.GetOneEnterprise;
-import tech.byrsa.sindibad.individual.advert.model.AdvertCreate;
+import tech.byrsa.sindibad.enterprise.port.in.*;
 import tech.byrsa.sindibad.rest.controller.AbstractController;
-import tech.byrsa.sindibad.rest.controller.individual.advert.dto.PaginatedAdvertResponse;
 import tech.byrsa.sindibad.rest.controller.userAccount.dto.CreateUserAccountRequest;
 import tech.byrsa.sindibad.rest.controller.userAccount.mapper.UserAccountRestMapper;
 import tech.byrsa.sindibad.useraccount.model.UserAccount;
@@ -31,7 +23,9 @@ public class EnterpriseRestController {
     private final ModifyEnterpriseUseCase modifyEnterpriseUseCase;
     private final GetOneEnterpriseUseCase getOneEnterprise;
     private final AffiliateEnterprise affiliateEnterprise;
-
+    private final DeleteEnterpriseUseCase deleteEnterpriseUseCase;
+    private final DeleteUserEnterpriseUseCase deleteUserEnterpriseUseCase;
+    private final ModUserEnterpriseUseCase modUserEnterprise;
     private final UserAccountRestMapper userAccountRestMapper;
 
     @PostMapping("/{resposable_id}")
@@ -65,11 +59,34 @@ public class EnterpriseRestController {
         return ResponseEntity.ok(e);
     }
 
+    @DeleteMapping("/{responsable_id}/{ent_id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("responsable_id") Long responsable_id, @PathVariable("ent_id") Long ent_id) {
+        boolean e = deleteEnterpriseUseCase.delete(responsable_id, ent_id);
+        if (!e) return ResponseEntity.status(404).body(null);
+        return ResponseEntity.ok(e);
+    }
     @PatchMapping("/affiliate/{responsable_id}/{ent_id}")
     public ResponseEntity<String> affiliate(@PathVariable("responsable_id") Long responsable_id, @PathVariable("ent_id") Long ent_id, @RequestBody CreateUserAccountRequest createUserAccountRequest) {
         UserAccountCreate userAccountCreate = userAccountRestMapper.map(createUserAccountRequest);
         String e = affiliateEnterprise.affiliate(responsable_id, ent_id, userAccountCreate);
         if (e == null) return ResponseEntity.status(404).body(null);
         return ResponseEntity.ok(e);
+    }
+    @PutMapping("/users/{responsable_id}/{enter_id}/{user_id}")
+    public ResponseEntity<UserAccount> mod(@PathVariable("responsable_id") Long responsable_id, @PathVariable("enter_id") Long ent_id, @PathVariable("user_id") Long user_id, @RequestBody UserAccount useraccount) {
+
+        UserAccount us = modUserEnterprise.modify(responsable_id, ent_id, user_id, useraccount);
+        if (us == null) return ResponseEntity.status(404).body(null);
+
+        return ResponseEntity.ok(us);
+    }
+
+    @DeleteMapping("/users/{responsable_id}/{enter_id}/{user_id}")
+    public ResponseEntity<Boolean> mod(@PathVariable("responsable_id") Long responsable_id, @PathVariable("enter_id") Long ent_id, @PathVariable("user_id") Long user_id) {
+
+        boolean us = deleteUserEnterpriseUseCase.delete(responsable_id, ent_id, user_id);
+        if (us == false) return ResponseEntity.status(404).body(null);
+
+        return ResponseEntity.ok(us);
     }
 }

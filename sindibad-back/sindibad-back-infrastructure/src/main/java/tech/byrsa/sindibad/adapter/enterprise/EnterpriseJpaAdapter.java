@@ -11,10 +11,7 @@ import tech.byrsa.sindibad.database.entity.UserAccountDb;
 import tech.byrsa.sindibad.database.repository.EnterpriseRepository;
 import tech.byrsa.sindibad.database.repository.UserAccountRepository;
 import tech.byrsa.sindibad.enterprise.model.Enterprise;
-import tech.byrsa.sindibad.enterprise.port.out.AffiliateEnterpriseDb;
-import tech.byrsa.sindibad.enterprise.port.out.GetOneEnterprise;
-import tech.byrsa.sindibad.enterprise.port.out.ModEnterprise;
-import tech.byrsa.sindibad.enterprise.port.out.SaveEntreprise;
+import tech.byrsa.sindibad.enterprise.port.out.*;
 import tech.byrsa.sindibad.useraccount.model.UserAccount;
 import tech.byrsa.sindibad.useraccount.model.UserAccountCreate;
 import tech.byrsa.sindibad.useraccount.port.out.GetUserAccount;
@@ -27,7 +24,7 @@ import java.util.Objects;
 @XSlf4j
 @Component
 @RequiredArgsConstructor
-public class EnterpriseJpaAdapter implements SaveEntreprise, GetOneEnterprise, ModEnterprise, AffiliateEnterpriseDb {
+public class EnterpriseJpaAdapter implements SaveEntreprise, GetOneEnterprise, ModEnterprise, AffiliateEnterpriseDb, DeleteEnterprise, ModUserEnterprise, DeleteUserEnterprise {
 
     private final EnterpriseRepository enterpriseRepository;
     private final EnterpriseJpaAdapterMapper enterpriseJpaAdapterMapper;
@@ -83,5 +80,60 @@ public class EnterpriseJpaAdapter implements SaveEntreprise, GetOneEnterprise, M
         entdb.setMembers(list);
         enterpriseRepository.save(entdb);
         return "done";
+    }
+
+    @Override
+    public boolean delete(Long resp, Long ent) {
+        EnterpriseDb entdb = enterpriseRepository.findById(ent).orElse(null);
+        if(entdb == null) return false;
+        if(!Objects.equals(entdb.getResponsableUser().getId(), resp)) return false;
+        enterpriseRepository.deleteById(ent);
+        return true;
+    }
+
+    @Override
+    public UserAccount modify(Long resp, Long ent, Long usr, UserAccount userAccount) {
+        UserAccountDb uad = userAccountRepository.findById(resp).orElse(null);
+        if(uad == null) return null;
+        EnterpriseDb entdb = enterpriseRepository.findById(ent).orElse(null);
+        if(entdb == null) return null;
+        if(!Objects.equals(entdb.getResponsableUser().getId(), resp)) return null;
+        UserAccountDb affiliatedUser = userAccountRepository.findById(usr).orElse(null);
+        if(affiliatedUser == null) return null;
+
+        List<UserAccountDb> mem = entdb.getMembers();
+        boolean useris_member = false;
+        for(UserAccountDb udb : mem){
+            if(udb.getId().equals(usr)){
+                useris_member = true;
+            }
+        }
+        if(useris_member == false) return null;
+        //now if responsable user is found AND enterprise is found too AND user affiliated is found --> MODIFY USER
+        UserAccountDb userAccountDb = userAccountJpaAdapterMapper.map(userAccount);
+        affiliatedUser.setFirstname(userAccountDb.getFirstname());
+        affiliatedUser.setLastname(userAccountDb.getLastname());
+        affiliatedUser.setEmail(userAccountDb.getEmail());
+        affiliatedUser = userAccountRepository.save(affiliatedUser);
+        return userAccountJpaAdapterMapper.map(affiliatedUser);
+    }
+
+    @Override
+    public boolean delete(Long resp, Long ent, Long usr) {
+        UserAccountDb uad = userAccountRepository.findById(resp).orElse(null);
+        if(uad == null) return false;
+        EnterpriseDb entdb = enterpriseRepository.findById(ent).orElse(null);
+        if(entdb == null) return false;
+        if(!Objects.equals(entdb.getResponsableUser().getId(), resp)) return false;
+        List<UserAccountDb> mem = entdb.getMembers();
+        for(UserAccountDb udb : mem){
+            if(udb.getId().equals(usr)){
+                mem.remove(udb);
+                entdb.setMembers(mem);
+                enterpriseRepository.save(entdb);
+                return true;
+            }
+        }
+        return false;
     }
 }

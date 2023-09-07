@@ -32,6 +32,6 @@ public class EnterpriseDb extends AbstractEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER)
     private List<UserAccountDb> members;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AdvertDb> adverts;
 }
