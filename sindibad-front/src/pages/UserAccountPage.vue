@@ -10,7 +10,7 @@
             <q-card-section class="white">
               <h4 class="text-h5 text-black q-my-md">Registration</h4>
               <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
-                <q-btn fab icon="close" color="red-14" />
+                <q-btn fab icon="close" href="/home" color="red-14" />
               </div>
             </q-card-section>
             <q-card-section>
@@ -51,7 +51,7 @@
             </q-card-section>
            
             <q-card-section class="text-center q-pa-sm">
-              <q-btn label="Return to login" @click="redirectToPage" unelevated  type="submit"  size="lg" color="blue" class="text-white-6" />
+              <q-btn label="Return to login" href="/login" unelevated  type="submit"  size="lg" color="blue" class="text-white-6" />
             </q-card-section>
           </q-card>
         </div>

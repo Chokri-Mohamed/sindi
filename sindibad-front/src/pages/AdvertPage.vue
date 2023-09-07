@@ -10,7 +10,7 @@
             <q-card-section class="white">
               <h4 class="text-h5 text-black q-my-md">Add Advert</h4>
               <div class="absolute-bottom-right q-pr-md" style="transform: translateY(50%);">
-                <q-btn fab icon="close" color="red-14" />
+                <q-btn fab icon="close" href="/home" color="red-14" />
               </div>
             </q-card-section>
             <q-card-section>
