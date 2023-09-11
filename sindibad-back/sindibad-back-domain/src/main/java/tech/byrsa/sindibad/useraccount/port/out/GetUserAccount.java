@@ -4,4 +4,5 @@ import tech.byrsa.sindibad.useraccount.model.UserAccount;
 
 public interface GetUserAccount {
     UserAccount getUserAccountById(Long id);
+    UserAccount getUserAccountByEmail(String email);
 }

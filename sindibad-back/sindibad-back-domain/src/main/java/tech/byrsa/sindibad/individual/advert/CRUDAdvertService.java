@@ -9,16 +9,15 @@ import tech.byrsa.sindibad.individual.advert.model.Advert;
 import tech.byrsa.sindibad.individual.advert.model.AdvertCreate;
 import tech.byrsa.sindibad.individual.advert.model.AdvertUpdate;
 import tech.byrsa.sindibad.individual.advert.port.in.*;
-import tech.byrsa.sindibad.individual.advert.port.out.GetAdvert;
-import tech.byrsa.sindibad.individual.advert.port.out.GetPageAdverts;
-import tech.byrsa.sindibad.individual.advert.port.out.SaveAdvert;
-import tech.byrsa.sindibad.individual.advert.port.out.UpdateAdvert;
+import tech.byrsa.sindibad.individual.advert.port.out.*;
 import tech.byrsa.sindibad.useraccount.port.out.DeleteAdvert;
 import tech.byrsa.sindibad.useraccount.port.out.GetUserAccount;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class CRUDAdvertService implements GetDetailedAdvertQuery, GetPaginatedAdvertsQuery, CreateAdvertUseCase, UpdateAdvertUseCase, DeleteAdvertUseCase {
+public class CRUDAdvertService implements GetDetailedAdvertQuery, SearchUsecase, GetPaginatedAdvertsQuery, CreateAdvertUseCase, UpdateAdvertUseCase, DeleteAdvertUseCase {
 
 	private final GetAdvert getAdvert;
 	private final GetPageAdverts getPageAdverts;
@@ -26,6 +25,7 @@ public class CRUDAdvertService implements GetDetailedAdvertQuery, GetPaginatedAd
 	private final SaveAdvert saveAdvert;
 	private final DeleteAdvert deleteAdvert;
 	private final GetUserAccount getUserAccount;
+	private final SearchAdvert searchAdvert;
 
 	@Override
 	public Page<Advert> getPaginatedAdverts(Pageable pageable) {
@@ -61,5 +61,11 @@ public class CRUDAdvertService implements GetDetailedAdvertQuery, GetPaginatedAd
 		if(advert == null) return false;
 		deleteAdvert.delete(id);
 		return true;
+	}
+
+	@Override
+	public List<Advert> search(String eq) {
+		List<Advert> e = searchAdvert.search(eq);
+		return e;
 	}
 }

@@ -3,15 +3,20 @@ package tech.byrsa.sindibad.adapter.enterprise;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.XSlf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tech.byrsa.sindibad.adapter.useraccount.UserAccountJpaAdapter;
 import tech.byrsa.sindibad.adapter.useraccount.UserAccountJpaAdapterMapper;
+import tech.byrsa.sindibad.database.entity.AdvertDb;
 import tech.byrsa.sindibad.database.entity.EnterpriseDb;
 import tech.byrsa.sindibad.database.entity.UserAccountDb;
 import tech.byrsa.sindibad.database.repository.EnterpriseRepository;
 import tech.byrsa.sindibad.database.repository.UserAccountRepository;
 import tech.byrsa.sindibad.enterprise.model.Enterprise;
 import tech.byrsa.sindibad.enterprise.port.out.*;
+import tech.byrsa.sindibad.individual.advert.model.Advert;
+import tech.byrsa.sindibad.individual.advert.port.out.SearchAdvert;
 import tech.byrsa.sindibad.useraccount.model.UserAccount;
 import tech.byrsa.sindibad.useraccount.model.UserAccountCreate;
 import tech.byrsa.sindibad.useraccount.port.out.GetUserAccount;
@@ -31,6 +36,7 @@ public class EnterpriseJpaAdapter implements SaveEntreprise, GetOneEnterprise, M
     private final UserAccountJpaAdapterMapper userAccountJpaAdapterMapper;
     private final UserAccountRepository userAccountRepository;
     private final UserAccountJpaAdapter userAccountJpaAdapter;
+    private final PasswordEncoder passwordEncoder ;
 
     @Override
     public Enterprise handle(Enterprise enterprise) {
@@ -43,6 +49,7 @@ public class EnterpriseJpaAdapter implements SaveEntreprise, GetOneEnterprise, M
         Enterprise ee = enterpriseJpaAdapterMapper.map(ed);
         return ee;
     }
+
 
     @Override
     public Enterprise getOne(Long id) {
@@ -69,6 +76,8 @@ public class EnterpriseJpaAdapter implements SaveEntreprise, GetOneEnterprise, M
 
     @Override
     public String affiliate(Long resp_id, Long ent_id, UserAccountCreate userAccountCreate) {
+    	final String encodedPassword = passwordEncoder.encode(userAccountCreate.getPassword());
+        userAccountCreate.setPassword(encodedPassword);
         EnterpriseDb entdb = enterpriseRepository.findById(ent_id).orElse(null);
         if(entdb == null) return null;
         if(!Objects.equals(entdb.getResponsableUser().getId(), resp_id)) return null;

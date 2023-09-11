@@ -1,5 +1,7 @@
 package tech.byrsa.sindibad.useraccount;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,21 @@ public class UserAccounetService implements CreateUserAccountUseCase, GetUserAcc
 		u.setLastname(userAccount.getLastname());
 		u = saveUserAccount.modifyUserAccount(id, userAccount);
 		return u;
+	}
+
+	@Override
+	@EventListener(ApplicationReadyEvent.class)
+	public void createAdmin() {
+		System.out.println("hello world, I have just started up");
+		UserAccount a = getUserAccount.getUserAccountByEmail("admin");
+		if(a == null){
+			UserAccountCreate UC = new UserAccountCreate();
+			UC.setEmail("admin");
+			UC.setFirstname("admin");
+			UC.setLastname("admin");
+			UC.setPassword("admin");
+			Long g = createUserAccount(UC);
+			System.out.println("created admin user with id: " + g);
+		}
 	}
 }

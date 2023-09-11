@@ -18,6 +18,7 @@ import tech.byrsa.sindibad.useraccount.port.out.SaveUserAccount;
 public class UserAccountJpaAdapter implements SaveUserAccount, GetUserAccount {
 
 	private final UserAccountJpaAdapterMapper userAccountJpaAdapterMapper;
+
 	private final UserAccountRepository userAccountRepository;
 
 	@Override
@@ -47,5 +48,12 @@ public class UserAccountJpaAdapter implements SaveUserAccount, GetUserAccount {
 		UserAccountDb us = userAccountRepository.findById(id).orElse(null);
 		UserAccount u = userAccountJpaAdapterMapper.map(us);
 		return u;
+	}
+
+	@Override
+	public UserAccount getUserAccountByEmail(String email) {
+		UserAccountDb us = userAccountRepository.findByEmail(email);
+		if(us == null) return null;
+		return userAccountJpaAdapterMapper.map(us);
 	}
 }
