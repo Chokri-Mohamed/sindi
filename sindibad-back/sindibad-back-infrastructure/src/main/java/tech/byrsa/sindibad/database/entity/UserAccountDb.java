@@ -3,18 +3,23 @@ package tech.byrsa.sindibad.database.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import tech.byrsa.sindibad.enterprise.model.Enterprise;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name="user_account",schema="sindibad")
+@Table(name = "user_account", schema = "sindibad")
 public class UserAccountDb extends AbstractEntity implements Serializable {
 
 	@Id
