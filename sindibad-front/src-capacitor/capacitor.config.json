@@ -1,0 +1,7 @@
+{
+  "appId": "tech.byrsa.sindibad",
+  "appName": "Sindibad",
+  "bundledWebRuntime": false,
+  "npmClient": "[object Object]",
+  "webDir": "www"
+}

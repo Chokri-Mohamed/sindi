@@ -11,12 +11,17 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@capacitor/android": "^5.4.1",
+    "@capacitor/cli": "^5.4.1",
+    "@capacitor/core": "^5.4.1",
+    "@capacitor/ios": "^5.4.1",
     "@quasar/extras": "^1.0.0",
     "assert": "^2.0.0",
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
+    "leaflet": "^1.9.4",
     "oidc-client-ts": "^2.2.4",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",

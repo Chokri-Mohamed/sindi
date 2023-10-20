@@ -22,6 +22,10 @@ public interface AdvertJpaAdapterMapper {
 	@Mapping(target = "lastModifiedDate", ignore = true)
 	@Mapping(target = "userAccount", ignore = true)
 	@Mapping(target = "advert_type", ignore = true)
+	@Mapping(target = "gouvernorat", ignore = true)
+	@Mapping(target = "lat", ignore = true)
+	@Mapping(target = "lon", ignore = true)
+
 	AdvertCarDb map(AdvertCar advert);
 
 	@Mapping(target = "id", ignore = true)
@@ -32,6 +36,9 @@ public interface AdvertJpaAdapterMapper {
 	@Mapping(target = "lastModifiedDate", ignore = true)
 	@Mapping(target = "userAccount", ignore = true)
 	@Mapping(target = "advert_type", ignore = true)
+	@Mapping(target = "gouvernorat", ignore = true)
+	@Mapping(target = "lat", ignore = true)
+	@Mapping(target = "lon", ignore = true)
 	AdvertImmoDb map(AdvertImmo advert);
 
 	default Advert map(AdvertDb advert){
@@ -40,6 +47,7 @@ public interface AdvertJpaAdapterMapper {
 			ac.setId(advert.getId());
 			ac.setTitle(advert.getTitle());
 			ac.setDescription(advert.getDescription());
+			
 			Advert.User u = new Advert.User();
 			u.setId(advert.getUserAccount().getId());
 			ac.setCreator(u);
@@ -83,6 +91,9 @@ public interface AdvertJpaAdapterMapper {
 	@Mapping(target = "createdDate", ignore = true)
 	@Mapping(target = "lastModifiedBy", ignore = true)
 	@Mapping(target = "lastModifiedDate", ignore = true)
+	@Mapping(target = "lat", ignore = true)
+	@Mapping(target = "lon", ignore = true)
+	@Mapping(target = "gouvernorat", ignore = true)
 	@Mapping(target = "userAccount", source = "userAccountDb")
 	//@Mapping(target = "advert_type", ignore = true)
 	AdvertImmoDb map1(AdvertCreate advertCreate, UserAccountDb userAccountDb);
@@ -93,7 +104,10 @@ public interface AdvertJpaAdapterMapper {
 	@Mapping(target = "createdDate", ignore = true)
 	@Mapping(target = "lastModifiedBy", ignore = true)
 	@Mapping(target = "lastModifiedDate", ignore = true)
+	@Mapping(target = "gouvernorat", ignore = true)
 	@Mapping(target = "userAccount", source = "userAccountDb")
+	@Mapping(target = "lat", ignore = true)
+	@Mapping(target = "lon", ignore = true)
 		//@Mapping(target = "advert_type", ignore = true)
 	AdvertCarDb map2(AdvertCreate advertCreate, UserAccountDb userAccountDb);
 }

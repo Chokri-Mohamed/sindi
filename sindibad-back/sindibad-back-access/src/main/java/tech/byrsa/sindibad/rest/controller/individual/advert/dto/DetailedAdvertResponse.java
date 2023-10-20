@@ -9,6 +9,7 @@ public class DetailedAdvertResponse {
 	private Long id;
 	private String title;
 	private String description;
+	private String governorat;
 	private Long userId;
 	private int advert_type;
 }

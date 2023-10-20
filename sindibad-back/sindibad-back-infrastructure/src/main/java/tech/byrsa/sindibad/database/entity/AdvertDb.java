@@ -24,11 +24,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Document(indexName = "advert", type="advertDB")
+@Document(indexName = "advert", type = "advertDB")
 @Table(name = "advert")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="advert_type",
-		discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "advert_type", discriminatorType = DiscriminatorType.INTEGER)
 public class AdvertDb extends AbstractEntity {
 
 	@Id
@@ -39,6 +38,10 @@ public class AdvertDb extends AbstractEntity {
 	private String title;
 	@Field(type = FieldType.Text, name = "description")
 	private String description;
+	@Field(type = FieldType.Text, name = "gouvernorat")
+	private String gouvernorat;
+	private float lon;
+	private float lat;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = UserAccountDb.class)
 	private UserAccountDb userAccount;

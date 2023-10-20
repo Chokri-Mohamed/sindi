@@ -76,7 +76,7 @@ public class SecurityConfiguration {
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
 				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC).scope(OidcScopes.OPENID)
-				.redirectUri("http://localhost:8080/auth")
+				.redirectUri("http://localhost:8090/auth")
 				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofHours(1))
 //	            .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
 						.build())

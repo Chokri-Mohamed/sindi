@@ -19,6 +19,7 @@ public interface AdvertRestMapper {
 		p.setId(advert.getId());
 		p.setDescription(advert.getDescription());
 		p.setTitle(advert.getTitle());
+		p.setGovernorat(advert.getGovernorat());
 		p.setUserId(advert.getCreator().getId());
 		if(advert.getClass().getTypeName().equals("tech.byrsa.sindibad.individual.advert.model.AdvertCar")){
 			p.setAdvert_type(1);
@@ -46,10 +47,13 @@ public interface AdvertRestMapper {
 	AdvertCreate map(CreateAdvertRequest createAdvertRequest, Long userId);
 
 	@Mapping(target = "title", source = "updateAdvertRequest.title")
+
 	@Mapping(target = "description", source = "updateAdvertRequest.description")
+
 	AdvertUpdate map(Long id, UpdateAdvertRequest updateAdvertRequest);
 	@Mapping(target = "title", source = "advert.title")
 	@Mapping(target = "description", source = "advert.description")
+
 	AdvertUpdate map(Advert advert);
 
 	default <T> boolean map(JsonNullable<T> value) {

@@ -10,6 +10,7 @@ public class Advert {
 	private Long id;
 	private String title;
 	private String description;
+	private String governorat;
 	private User creator;
 	private String createdBy;
 	private String lastModifiedBy;

@@ -44,7 +44,7 @@
                 </q-input>
                 
                 <q-card-actions class="q-px-lg">
-              <q-btn label="Register" unelevated  type="submit" size="lg" color="green" class="full-width text-white" />
+              <q-btn label="Register" unelevated  type="submit" size="lg" color="green" class="full-width text-white" @click="$router.push('/home')"/>
             </q-card-actions>
                 
               </q-form>

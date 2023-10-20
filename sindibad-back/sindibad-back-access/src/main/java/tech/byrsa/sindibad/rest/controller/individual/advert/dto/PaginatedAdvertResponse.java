@@ -9,6 +9,7 @@ public class PaginatedAdvertResponse {
 	private Long id;
     private String title;
     private String description;
+    private String governorat;
     private int advert_type;
     private Long userId;
 }

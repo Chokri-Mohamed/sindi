@@ -22,6 +22,7 @@ export default {
   },
   mounted() {
     this.test(); // Call the test() function when the component is mounted
+    this.login(); 
   }
 }
 </script>

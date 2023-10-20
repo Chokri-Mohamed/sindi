@@ -10,4 +10,5 @@ import lombok.Setter;
 public class UpdateAdvertRequest {
 	private String title;
 	private String description;
+	private String governorat;
 }

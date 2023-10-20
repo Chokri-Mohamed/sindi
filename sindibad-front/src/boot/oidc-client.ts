@@ -8,7 +8,7 @@ const oidcConfig: OidcClientSettings = {
   client_id: 'client', // Replace with your OIDC client ID
   client_secret:'secret',
   client_authentication:'client_secret_basic',
-  redirect_uri: 'http://localhost:8080/auth', // Replace with your redirect URI
+  redirect_uri: 'http://localhost:8090/auth', // Replace with your redirect URI
   scope: 'openid',
 };
 

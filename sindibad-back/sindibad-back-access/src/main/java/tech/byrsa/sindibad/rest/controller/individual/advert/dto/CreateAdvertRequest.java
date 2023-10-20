@@ -9,4 +9,8 @@ public class CreateAdvertRequest {
 	private String title;
 	private String description;
 	private int advert_type;
+	private float lat;
+	private float lon;
+
+	
 }

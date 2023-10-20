@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "0c05e381-7633-40ef-8dfe-d5d5e2f91848",
+		"name": "Sindibad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"med@gmail.com\",\r\n    \"firstname\" : \"mohamed\",\r\n    \"lastname\" : \"chokri\",\r\n    \"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Get one user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8000/individual/users/3"
+			},
+			"response": []
+		},
+		{
+			"name": "Modify user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"email\": \"eoeoe\",\r\n    \"firstname\": \"med\",\r\n    \"lastname\": \"ch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/users/8"
+			},
+			"response": []
+		},
+		{
+			"name": "Create advert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n\t\"title\":\"voiture\",\r\n    \"description\":\"cchhhsh\",\r\n    \"advert_type\" : 2\r\n    \r\n   \r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/individual/adverts?user=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"individual",
+						"adverts"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modify advert",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"bbbrrrrr\",\r\n    \"description\" : \"rrcrr\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/adverts/5"
+			},
+			"response": []
+		},
+		{
+			"name": "Detailed advert",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8000/individual/adverts/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Adverts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/individual/adverts?pageSize=20&pageNum=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"individual",
+						"adverts"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "20"
+						},
+						{
+							"key": "pageNum",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete advert",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "localhost:8000/individual/adverts/10"
+			},
+			"response": []
+		},
+		{
+			"name": "create entreprise",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"esprit\",\r\n    \"fiscalNum\" : \"33\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/enterprise/1"
+			},
+			"response": []
+		},
+		{
+			"name": "modify entreprise",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"hy333ey\",\r\n    \"fiscalNum\" : \"22222\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/enterprise/1/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get one entreprise",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": ""
+			},
+			"response": []
+		},
+		{
+			"name": "affiliate user to entreprise",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"emam\",\r\n    \"firstname\" : \"amama\",\r\n    \"lastname\" : \"mamammm\",\r\n    \"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/enterprise/affiliate/1/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete entreprise",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "localhost:8000/individual/enterprise/4/3"
+			},
+			"response": []
+		},
+		{
+			"name": "Modify user affiliated to enterprise",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"heyr\",\r\n    \"firstname\": \"ahmed\",\r\n    \"lastname\": \"dexbb\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/individual/enterprise/users/1/1/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete affiliated user to enterprise",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "localhost:8000/individual/enterprise/users/1/1/10"
+			},
+			"response": []
+		},
+		{
+			"name": "Search advert",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": ""
+			},
+			"response": []
+		}
+	]
+}

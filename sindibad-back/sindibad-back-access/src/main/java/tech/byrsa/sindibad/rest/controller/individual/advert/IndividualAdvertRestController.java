@@ -88,7 +88,7 @@ public class IndividualAdvertRestController {
 	public ResponseEntity<Long> createAdvert(@RequestBody CreateAdvertRequest createAdvertRequest, @RequestParam("user") Long userId) {
 
 		log.entry(createAdvertRequest);
-
+		//System.out.print(createAdvertRequest.getLat());
 		AdvertCreate advertCreate = advertRestMapper.map(createAdvertRequest, userId);
 		Long id = createAdvert.createAdvert(advertCreate);
 		if(id == null) return ResponseEntity.status(404).body(null);
@@ -116,4 +116,5 @@ public class IndividualAdvertRestController {
 		if(deleteAdvert.delete(id)) return ResponseEntity.ok(true);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
 	}
+	
 }
